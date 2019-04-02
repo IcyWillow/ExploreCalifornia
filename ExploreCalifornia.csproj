@@ -1,0 +1,48 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+    <Folder Include="Controllers\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\css\fonts\DroidSerif-Bold-webfont.woff" />
+    <Content Remove="wwwroot\css\fonts\DejaVuSansCondensed-BoldOblique-webfont.svg" />
+    <Content Remove="wwwroot\css\fonts\DejaVuSansCondensed-BoldOblique-webfont.ttf" />
+    <Content Remove="wwwroot\css\fonts\DejaVuSans-Bold-webfont.woff" />
+    <Content Remove="wwwroot\css\fonts\DejaVuSansCondensed-Oblique-webfont.eot" />
+    <Content Remove="wwwroot\css\fonts\DroidSerif-BoldItalic-webfont.ttf" />
+    <Content Remove="wwwroot\css\fonts\DroidSerif-BoldItalic-webfont.svg" />
+    <Content Remove="wwwroot\css\fonts\DejaVuSansCondensed-BoldOblique-webfont.woff" />
+    <Content Remove="wwwroot\css\fonts\DroidSerif-BoldItalic-webfont.eot" />
+    <Content Remove="wwwroot\css\fonts\DejaVuSansCondensed-Oblique-webfont.ttf" />
+    <Content Remove="wwwroot\css\fonts\DejaVuSansCondensed-Oblique-webfont.svg" />
+    <Content Remove="wwwroot\css\fonts\DroidSerif-Italic-webfont.woff" />
+    <Content Remove="wwwroot\css\fonts\DejaVuSans-webfont.ttf" />
+    <Content Remove="wwwroot\css\fonts\DejaVuSans-webfont.svg" />
+    <Content Remove="wwwroot\css\fonts\DejaVuSans-webfont.eot" />
+    <Content Remove="wwwroot\css\fonts\DejaVuSansCondensed-webfont.woff" />
+    <Content Remove="wwwroot\css\fonts\font_licenses\Google Android License.txt" />
+    <Content Remove="wwwroot\css\fonts\font_licenses\DejaVu Fonts License.txt" />
+    <Content Remove="wwwroot\images\taste_desc_bug.gif" />
+    <Content Remove="wwwroot\images\emerald_bay.jpg" />
+    <Content Remove="wwwroot\images\oranges.jpg" />
+    <Content Remove="wwwroot\images\big_sur.jpg" />
+    <Content Remove="wwwroot\images\desert_bug.gif" />
+    <Content Remove="wwwroot\images\asterisk.gif" />
+    <Content Remove="wwwroot\images\breakup.jpg" />
+    <Content Remove="wwwroot\images\map_channel.gif" />
+    <Content Remove="wwwroot\images\cycle_logo.png" />
+    <Content Remove="config.development.json" />
+  </ItemGroup>
+</Project>
