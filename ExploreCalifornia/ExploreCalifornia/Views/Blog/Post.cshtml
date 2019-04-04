@@ -1,7 +1,4 @@
 ﻿@model ExploreCalifornia.Models.Post;
-@{
-    ViewData["Title"] = "Post";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
 
-@Html.PartialAsync("_Post")
+
+@await Html.PartialAsync("_Post")

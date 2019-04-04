@@ -1,56 +1,65 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using ExploreCalifornia.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace ExploreCalifornia.Controllers
 {
     [Route("blog")]
     public class BlogController : Controller
     {
-        [Route("")]
-        public IActionResult Index()
-        {
+        private readonly BlogDataContext _db;
 
-            var posts = new[]
+        public BlogController(BlogDataContext db)
+        {
+            _db = db;
+        }
+
+        [Route("")]
+        public IActionResult Index(int page = 0)
+        {
+            var pageSize = 2;
+            var totalPosts = _db.Posts.Count();
+            var totalPages = totalPosts / pageSize;
+            var previousPage = pageSize - 1;
+            var nextPage = pageSize + 1;
+
+            ViewBag.PreviousPage = previousPage;
+            ViewBag.HasPreviousPage = previousPage >= 0;
+            ViewBag.NextPage = nextPage;
+            ViewBag.HasNextPage = nextPage < totalPages;
+
+            var posts = _db.Posts
+                            .OrderByDescending(x => x.Posted)
+                            .Skip(pageSize * page)
+                            .Take(pageSize)
+                            .ToArray();
+
+            //AJAX Request
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
             {
-                new Post()
-                {
-                    Title = "My blog post",
-                    Posted = DateTime.Now,
-                    Author = "Serena Fleischmann",
-                    Body = "This is a great blog post, don't you think?"
-                },
-                new Post()
-                {
-                    Title = "My second blog post",
-                    Posted = DateTime.Now,
-                    Author = "Serena Fleischmann",
-                    Body = "This is ANOTHER great blog psot, don't you think?"
-                },
-            };
+                return PartialView(posts);
+            }
 
             return View(posts);
         }
 
-        [Route("blog/{year:min(2000)}/{month:range(1,12)}/{key}")]
+        [Route("{year:min(2000)}/{month:range(1,12)}/{key}")]
         public IActionResult Post(int year, int month, string key)
         {
 
-            var post = new Post
-            {
-                Title = "My blog post",
-                Posted = DateTime.Now,
-                Author = "Serena Fleischmann",
-                Body = "This is a great blog psot, don't you think?"
-
-            };
+            var post = _db.Posts.FirstOrDefault(x => x.Key == key);
+          
 
             return View(post);
         }
 
+        [Authorize]
         [HttpGet, Route("create")]
         public IActionResult Create()
         {
@@ -58,17 +67,26 @@ namespace ExploreCalifornia.Controllers
             return View();
         }
 
+        [Authorize]
         [HttpPost, Route("create")]
         public IActionResult Create(Post post)
         {
             //Check if given data is valid.
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
                 return View();
 
             post.Author = User.Identity.Name;
             post.Posted = DateTime.Now;
 
-            return View();
+            _db.Posts.Add(post);
+            _db.SaveChanges();
+
+            return RedirectToAction("Post", "Blog", new
+            {
+                year = post.Posted.Year,
+                month = post.Posted.Month,
+                key = post.Key
+            });
         }
 
     
